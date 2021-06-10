@@ -14,7 +14,7 @@ FROM sys.server_role_members
 JOIN sys.server_principals AS member
     ON sys.server_role_members.member_principal_id = member.principal_id
 LEFT JOIN sys.server_permissions s ON member.principal_id=s.grantee_principal_id
-WHERE s.permission_name  not in('CONNECT SQL') and is_disabled=0 --не отключенные
+WHERE s.permission_name  not in('CONNECT SQL') and is_disabled=0 --not disabled
 GROUP BY member.name, s.permission_name
 UNION
 select l.name COLLATE Cyrillic_General_CI_AS,p.name COLLATE Cyrillic_General_CI_AS
