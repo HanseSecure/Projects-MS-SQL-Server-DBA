@@ -1,4 +1,4 @@
---к БД SRV
+--to BD SRV
 USE [SRV];
 go
  
