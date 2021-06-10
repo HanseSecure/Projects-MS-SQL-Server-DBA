@@ -1,6 +1,6 @@
 set nocount on
 declare @name varchar(128), @substr nvarchar(4000), @column varchar(128)
-set @substr = '%75575%' --фрагмент строки, который будем искать
+set @substr = '%75575%' --ГґГ°Г ГЈГ¬ГҐГ­ГІ Г±ГІГ°Г®ГЄГЁ, ГЄГ®ГІГ®Г°Г»Г© ГЎГіГ¤ГҐГ¬ ГЁГ±ГЄГ ГІГј
 
 declare @sql nvarchar(max);
 
@@ -38,7 +38,7 @@ end
 select table_name as [Table Name], field_name as [Field Name], count(*) as [Found Mathes] from #rslt
 group by table_name, field_name
 order by table_name, field_name
---Если нужно, можем отобразить все найденные значения
+--Г…Г±Г«ГЁ Г­ГіГ¦Г­Г®, Г¬Г®Г¦ГҐГ¬ Г®ГІГ®ГЎГ°Г Г§ГЁГІГј ГўГ±ГҐ Г­Г Г©Г¤ГҐГ­Г­Г»ГҐ Г§Г­Г Г·ГҐГ­ГЁГї
 --select * from #rslt order by table_name, field_name
 drop table #rslt
 close s
