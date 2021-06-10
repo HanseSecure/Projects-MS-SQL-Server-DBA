@@ -1,6 +1,6 @@
 set nocount on
 declare @name varchar(128), @substr nvarchar(4000), @column varchar(128)
-set @substr = '%75575%' --ôðàãìåíò ñòðîêè, êîòîðûé áóäåì èñêàòü
+set @substr = '%75575%' --the segment of the line that we are looking for
 
 declare @sql nvarchar(max);
 
@@ -38,7 +38,7 @@ end
 select table_name as [Table Name], field_name as [Field Name], count(*) as [Found Mathes] from #rslt
 group by table_name, field_name
 order by table_name, field_name
---Åñëè íóæíî, ìîæåì îòîáðàçèòü âñå íàéäåííûå çíà÷åíèÿ
+--If you want, you can select all the values you find
 --select * from #rslt order by table_name, field_name
 drop table #rslt
 close s
