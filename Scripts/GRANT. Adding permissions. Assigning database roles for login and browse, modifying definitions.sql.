@@ -1,29 +1,29 @@
 USE [master]
  
 DECLARE @Login varchar(255)='login'
-DECLARE @Default_DB varchar(255)='master' --БД по умолчанию
-DECLARE @SQL nvarchar(max)=N'' --sql контейнер
-DECLARE @processadmin tinyint=1 --даем права processadmin на сервере
-DECLARE @IS_VIEW_ANY_DEFINITION tinyint=1 --просмотр любого определения объектов в рамках сервера
-DECLARE @IS_ALTER_ANY_DEFINITION tinyint=0 --изменения любого определения объектов в рамках сервера ALTER DDL в рамках сервера
-DECLARE @All_User_DBs tinyint=1 --для всех пользовательских БД
+DECLARE @Default_DB varchar(255)'master'  --DB by default
+DECLARE @SQL nvarchar(max)n'  --sql container 
+DECLARE @processadmin tinyintq1  --give processadmin rights on server
+DECLARE @IS_VIEW_ANY_DEFINITION tinyintq1  --view any definition of objects within the server
+DECLARE @IS_ALTER_ANY_DEFINITION tinyint0  --changes to any definition of objects within the ALTER DDL server within the server
+DECLARE @All_User_DBs tinyintq1  --for all custom databases
  
 DECLARE @ListDatabases TABLE([DB] varchar(255))
 DECLARE @ListDBRoles TABLE([Role] varchar(255))
  
---Список ролей
+--List of roles
 insert into @ListDBRoles
 select distinct [name]
 from
 (select distinct [name]
-from sys.database_principals where [type_desc]='DATABASE_ROLE'
-and name in('db_datareader')) roles --список ролей которые необходимо
+from sys. database_principals where [type_desc]='DATABASE_ROLE'
+and name in('db_datareader')roles  --a list of roles that are needed
  
---Заполнения списка необходимых БД
+--Filling out the list of necessary databases
 INSERT INTO @ListDatabases
 select [name]
-from sys.databases where database_id>4 and name not in('SRV','Admin')
-and (name in('') or @All_User_DBs=1) --Здесь через запятую дать список БД
+from sys. databases where database_id>4 and name not in('SRV','Admin')
+and (name in( ') or @All_User_DBsq1)  --Here via comma to give a list of database
  
 SET @SQL='CREATE LOGIN ['+@Login+'] FROM WINDOWS WITH DEFAULT_DATABASE=['+@Default_DB+']'
  
@@ -33,10 +33,10 @@ begin try
 end try
 begin catch
     if @@error<>0
-    select 'Логин ['+@Login+'] уже существует на сервере!' msg
+    select  'login'@Login'alreadyexists on the server!' msg
 end catch
  
---Очистка SQL контэйнера
+--Cleaning up the conteiner's sql
 set @SQL=''
  
 if @processadmin=1
@@ -52,7 +52,7 @@ end catch
  
 set @SQL=''
  
---Создание юзера для default database
+--Create a user for the default database
 set @SQL='USE ['+@Default_DB+']
 CREATE USER ['+@Login+'] FOR LOGIN ['+@Login+']'
  
@@ -98,8 +98,8 @@ IF (select count(1) from @ListDatabases)>0
 begin
 begin
     select @SQL=@SQL+'
-    USE ['+DB+']
-    begin try CREATE USER ['+@Login+'] FOR LOGIN ['+@Login+'] end try
+USE ['+DB+']
+begin try CREATE USER ['+@Login+'] FOR LOGIN ['+@Login+'] end try
     begin catch end catch'
     from @ListDatabases
 end
@@ -116,7 +116,7 @@ set @SQL=''
  
 select @SQL=@SQL+'
 USE ['+DB+']
-begin try ALTER ROLE  ['+R.Role+'] ADD MEMBER ['+@Login+'] end try
+begin try ALTER ROLE ['+R. Role+'] ADD MEMBER ['+@Login+'] end try
 begin catch end catch'
 from @ListDatabases DBS INNER JOIN @ListDBRoles R ON(1=1)
  
